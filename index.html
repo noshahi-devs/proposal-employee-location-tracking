@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Employee Location Management - Project Proposal</title>
+<style>
+  @page { size: A4; margin: 18mm; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #eef1f5; color: #17202a;
+    font-family: Arial, Helvetica, sans-serif; line-height: 1.55;
+  }
+  .page {
+    width: 210mm; min-height: 297mm; margin: 20px auto;
+    background: #fff; padding: 18mm 17mm;
+    box-shadow: 0 2px 12px rgba(0,0,0,.12);
+    position: relative;
+  }
+  .cover { min-height: 255mm; display:flex; flex-direction:column; justify-content:center; text-align:center; }
+  .brand { font-size: 15px; font-weight:700; letter-spacing:1.2px; color:#1f4e79; }
+  h1 { font-size: 34px; line-height:1.15; margin: 18px 0 10px; color:#17365d; }
+  .subtitle { font-size:18px; color:#4f5d6b; margin-bottom:42px; }
+  .meta { width: 80%; margin: 0 auto; border-top:2px solid #1f4e79; }
+  .meta div { display:flex; padding:10px 0; border-bottom:1px solid #d9dee5; text-align:left; }
+  .meta strong { width:32%; color:#17365d; }
+  h2 { color:#17365d; font-size:22px; border-bottom:2px solid #d7e2ee; padding-bottom:7px; margin-top:0; }
+  h3 { color:#1f4e79; font-size:17px; margin-bottom:7px; }
+  .section { margin-bottom:22px; }
+  .callout {
+    border-left:5px solid #1f4e79; background:#f3f7fb; padding:14px 16px;
+    margin:12px 0 18px;
+  }
+  ul { padding-left:23px; }
+  li { margin:5px 0; }
+  table { width:100%; border-collapse:collapse; margin:12px 0 18px; }
+  th, td { border:1px solid #cfd6de; padding:9px 10px; vertical-align:top; }
+  th { background:#eaf1f8; color:#17365d; text-align:left; }
+  .step { width:60px; text-align:center; font-weight:700; }
+  .cost td:last-child, .cost th:last-child { text-align:right; white-space:nowrap; }
+  .total { font-weight:700; background:#eef5fb; }
+  .footer {
+    margin-top:35px; padding-top:10px; border-top:1px solid #d5dbe2;
+    font-size:11px; color:#66727e; display:flex; justify-content:space-between;
+  }
+  .small { font-size:13px; color:#596673; }
+  .center { text-align:center; }
+  .screen {
+    border:1px solid #ccd5df; border-radius:8px; padding:15px; background:#fafbfd;
+    margin:10px 0;
+  }
+  .screen-title { font-weight:700; color:#17365d; }
+  .rule { font-size:17px; font-weight:700; text-align:center; padding:18px; background:#f3f7fb; border:1px solid #d7e2ee; }
+  /* Responsive proposal pages */
+  @media screen and (max-width: 900px) {
+    body { background:#eef1f5; overflow-x:hidden; }
+    .page {
+      width:min(100% - 24px, 210mm);
+      min-height:auto;
+      margin:12px auto;
+      padding:28px 24px;
+      box-shadow:0 2px 10px rgba(0,0,0,.10);
+    }
+    .cover { min-height:calc(100vh - 24px); padding:40px 24px; }
+    .meta { width:100%; }
+    .demo-launch { min-height:44px; }
+  }
+
+  @media screen and (max-width:600px) {
+    .page { width:100%; margin:0; padding:24px 16px; box-shadow:none; }
+    .cover { min-height:100vh; padding:32px 16px; }
+    .brand { font-size:12px; letter-spacing:.8px; }
+    h1 { font-size:clamp(27px,8vw,34px); margin:14px 0 8px; }
+    .subtitle { font-size:15px; margin-bottom:28px; }
+    .meta div { display:block; padding:9px 0; }
+    .meta strong { display:block; width:100%; margin-bottom:2px; font-size:13px; }
+    .meta span { display:block; font-size:13px; overflow-wrap:anywhere; }
+    h2 { font-size:19px; line-height:1.3; }
+    h3 { font-size:16px; }
+    p, li { font-size:14px; }
+    ul { padding-left:20px; }
+    .callout { padding:12px 13px; }
+
+    /* Tables scroll horizontally instead of breaking the page */
+    table {
+      display:block;
+      width:100%;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+    th, td { min-width:120px; padding:8px; font-size:13px; }
+    .step { min-width:48px; width:48px; }
+    .cost th:last-child, .cost td:last-child { white-space:nowrap; }
+
+    .footer { display:block; font-size:10px; line-height:1.6; }
+    .footer span { display:block; overflow-wrap:anywhere; }
+    .rule { font-size:15px; padding:14px; }
+
+    /* Interactive demo fills the phone screen */
+    .demo-overlay { padding:0; align-items:stretch; justify-content:stretch; }
+    .demo-shell {
+      width:100%; max-width:none; height:100dvh; min-height:100vh;
+      border:0; border-radius:0;
+    }
+    .demo-side {
+      width:min(270px,82vw);
+      left:0; top:0; bottom:0;
+      transform:translateX(-105%);
+    }
+    .demo-top { height:58px; padding:0 10px; flex-shrink:0; }
+    .demo-top h3 {
+      font-size:14px; max-width:62%;
+      overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    }
+    .demo-content { padding:10px; min-width:0; }
+    .dash-grid { grid-template-columns:1fr 1fr; gap:8px; }
+    .stat-card { padding:10px; min-width:0; }
+    .stat-card .value { font-size:19px; }
+    .demo-card { padding:12px; overflow:hidden; }
+    .employee-row { flex-wrap:wrap; align-items:center; }
+    .employee-row .demo-btn { margin-left:41px; }
+    .table-like { display:table; overflow-x:auto; white-space:nowrap; }
+    .table-like th, .table-like td { min-width:0; font-size:9px; }
+    .map-box { height:min(52vw,250px); min-height:180px; }
+    .map-label { max-width:calc(100% - 24px); font-size:9px; line-height:1.35; }
+    .form-grid { grid-template-columns:1fr; gap:9px; }
+    .login-screen { padding:14px; overflow-y:auto; }
+    .login-card { padding:18px; max-height:100%; overflow-y:auto; }
+    .mobile-preview { width:100%; border-width:5px; border-radius:22px; }
+    .mobile-body { min-height:360px; }
+    .mobile-nav button { min-height:44px; }
+    .mobile-modal { padding:12px; }
+    .mobile-modal-card { width:min(360px,100%); }
+  }
+
+  @media screen and (max-width:380px) {
+    .page, .cover { padding-left:12px; padding-right:12px; }
+    .dash-grid { grid-template-columns:1fr; }
+    .demo-top h3 { font-size:13px; }
+    .demo-content { padding:8px; }
+    .employee-row .demo-btn { margin-left:0; width:100%; }
+  }
+
+  @media print {
+    body { background:#fff; }
+    .page { margin:0; box-shadow:none; page-break-after:always; }
+    .page:last-child { page-break-after:auto; }
+  }
+
+  .demo-launch{border:0;background:#17365d;color:#fff;padding:13px 22px;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 5px 15px rgba(23,54,93,.22);margin:8px 0 6px}.demo-launch:hover{background:#1f4e79}.demo-note{font-size:13px;color:#66727e;margin:0 0 16px}
+  .demo-overlay{display:none;position:fixed;inset:0;background:rgba(7,15,25,.76);z-index:9999;align-items:center;justify-content:center;padding:18px}.demo-overlay.open{display:flex}
+  .demo-shell{width:min(430px,94vw);height:min(820px,94vh);background:#0b1220;border-radius:30px;border:8px solid #1a2330;position:relative;box-shadow:0 25px 80px rgba(0,0,0,.45);display:flex;overflow:hidden;color:#eaf0f7;font-family:Inter,Arial,sans-serif}
+  .demo-side{width:235px;background:#101a2c;position:absolute;left:-8px;top:-8px;bottom:-8px;z-index:5;transform:translateX(-105%);transition:transform .22s ease;box-shadow:12px 0 35px rgba(0,0,0,.35);border-right:1px solid #26334a;padding:18px 14px;display:flex;flex-direction:column}.demo-side.open{transform:translateX(0)}.demo-brand{font-weight:800;font-size:15px;padding:8px 10px 20px}.demo-brand span{display:block;color:#65d8a1;font-size:11px;margin-top:4px;letter-spacing:.5px}.role-tabs{display:flex;gap:6px;background:#0b1220;padding:5px;border-radius:10px;margin-bottom:14px}.role-tabs button{flex:1;border:0;background:transparent;color:#8fa0b7;border-radius:7px;padding:8px 3px;font-size:10px;cursor:pointer}.role-tabs button.active{background:#1d2b43;color:#fff}.demo-nav{display:grid;gap:5px}.demo-nav button{border:0;background:transparent;color:#aebbd0;text-align:left;padding:11px 12px;border-radius:9px;cursor:pointer;font-size:12px}.demo-nav button.active,.demo-nav button:hover{background:#1b2940;color:#fff}.demo-user{margin-top:auto;border-top:1px solid #26334a;padding:13px 8px;font-size:11px;color:#93a3b8}.demo-user strong{display:block;color:#fff;font-size:12px}.demo-main{flex:1;width:100%;display:flex;flex-direction:column;min-width:0}.demo-top{height:64px;border-bottom:1px solid #26334a;display:flex;align-items:center;justify-content:space-between;padding:0 20px}.demo-top h3{color:#fff;margin:0;font-size:16px}.demo-top .close-demo{border:0;background:#1a263a;color:#b9c6d8;border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:18px}.demo-content{padding:20px;overflow:auto}.dash-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat-card{background:#111d30;border:1px solid #253650;border-radius:13px;padding:14px}.stat-card .label{color:#8191a8;font-size:10px}.stat-card .value{font-size:22px;font-weight:800;margin-top:5px}.stat-card .hint{font-size:10px;color:#65d8a1;margin-top:4px}.demo-card{background:#111d30;border:1px solid #253650;border-radius:14px;padding:15px;margin-bottom:14px}.demo-card h4{margin:0 0 11px;color:#fff;font-size:13px}.employee-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-top:1px solid #253650;gap:10px}.employee-row:first-of-type{border-top:0}.employee-clickable{cursor:pointer;transition:background .15s ease;border-radius:9px;padding-left:7px;padding-right:7px}.employee-clickable:hover{background:#17263b}.employee-clickable:active{background:#1c304b}.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#203452;color:#8ee6bd;font-size:11px;font-weight:800;flex:0 0 auto}.emp-info{flex:1;min-width:0}.emp-info strong{display:block;font-size:12px;color:#fff}.emp-info span{display:block;color:#8495ac;font-size:10px;margin-top:2px}.status{font-size:9px;padding:4px 7px;border-radius:20px;background:#18382c;color:#76e0ac}.status.off{background:#34252a;color:#e7a4ae}.demo-btn{border:0;background:#4fd493;color:#07140e;border-radius:8px;padding:8px 10px;font-weight:800;font-size:10px;cursor:pointer}.demo-btn.secondary{background:#1c2a40;color:#d7e1ed}.demo-btn.danger{background:#4a242b;color:#ffb5bf}.demo-btn:disabled{opacity:.45;cursor:not-allowed}.map-box{height:250px;border-radius:12px;border:1px solid #31415b;background:linear-gradient(135deg,#16253a,#0f1a2b);position:relative;overflow:hidden}.map-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(130,160,190,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(130,160,190,.08) 1px,transparent 1px);background-size:42px 42px}.map-road{position:absolute;height:9px;background:#344760;transform:rotate(-22deg);left:-30px;right:-30px;top:50%;border-radius:8px}.map-road.r2{transform:rotate(25deg);top:35%;background:#2b3d57}.map-pin{position:absolute;left:58%;top:45%;width:18px;height:18px;border-radius:50% 50% 50% 0;background:#4fd493;transform:rotate(-45deg);box-shadow:0 0 0 8px rgba(79,212,147,.12)}.map-pin:after{content:'';position:absolute;width:6px;height:6px;background:#102019;border-radius:50%;left:6px;top:6px}.map-label{position:absolute;bottom:12px;left:12px;background:#0b1220e8;padding:9px 11px;border-radius:8px;font-size:10px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;color:#8fa0b7;font-size:10px;margin-bottom:5px}.field input,.field select{width:100%;border:1px solid #2b3b55;background:#0b1220;color:#fff;border-radius:8px;padding:10px;font-size:11px;outline:none}.table-like{width:100%;border-collapse:collapse;font-size:10px}.table-like th,.table-like td{border:0;border-bottom:1px solid #253650;padding:9px 5px;text-align:left;color:#aebbd0}.table-like th{color:#70819a;font-weight:600}.notice{padding:11px 12px;border-radius:9px;background:#152b3d;color:#9ec4e8;font-size:10px;margin-bottom:12px}.success{background:#123326;color:#79e2b0}.warning{background:#342c18;color:#e6c67c}.profile{display:flex;align-items:center;gap:12px}.big-avatar{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#203452;color:#8ee6bd;font-weight:800}.login-screen{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:25px;background:radial-gradient(circle at 50% 10%,#18304b,#0b1220 58%)}.login-card{width:min(390px,100%);background:#111d30;border:1px solid #2b3b55;border-radius:18px;padding:25px;box-shadow:0 18px 55px rgba(0,0,0,.25)}.login-card h2{border:0;color:#fff;margin:0 0 4px;font-size:22px}.login-card p{color:#8292a9;font-size:11px;margin:0 0 18px}.login-card .field{margin-bottom:12px}.login-card .demo-btn{width:100%;padding:11px}.demo-credentials{font-size:9px;color:#6e8098;line-height:1.7;margin-top:13px;background:#0b1220;padding:9px;border-radius:8px}.mobile-preview{width:350px;max-width:100%;margin:auto;background:#f4f7fa;color:#17202a;border-radius:31px;border:8px solid #1a2330;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.3)}.mobile-status{height:25px;background:#fff;font-size:9px;display:flex;justify-content:space-between;padding:6px 12px;color:#556273}.mobile-head{background:#17365d;color:#fff;padding:17px 15px}.mobile-head strong{font-size:15px}.mobile-head span{display:block;font-size:9px;color:#c8d9e9;margin-top:3px}.mobile-body{padding:12px;background:#f4f7fa;min-height:430px}.mobile-card{background:#fff;border:1px solid #e0e6ec;border-radius:12px;padding:12px;margin-bottom:10px;box-shadow:0 2px 8px rgba(20,40,60,.05)}.mobile-card h5{margin:0 0 8px;font-size:11px}.mobile-nav{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:1px solid #dce3ea}.mobile-nav button{border:0;background:#fff;color:#69788a;font-size:8px;padding:10px 3px;cursor:pointer}.mobile-nav button.active{color:#17365d;font-weight:800}.mobile-action{width:100%;border:0;background:#17365d;color:#fff;border-radius:8px;padding:9px;font-size:10px;font-weight:700;cursor:pointer}.mobile-action.green{background:#2fa66d}.mini-map{height:150px;border-radius:10px;background:linear-gradient(135deg,#e3ebf2,#cfdbe5);position:relative;overflow:hidden}.mini-map:before,.mini-map:after{content:'';position:absolute;background:#fff8;height:8px;width:130%;left:-15%;top:50%;transform:rotate(-18deg)}.mini-map:after{top:35%;transform:rotate(23deg);background:#f5f7f8}.mini-pin{position:absolute;left:55%;top:47%;width:16px;height:16px;background:#d94c59;border-radius:50% 50% 50% 0;transform:rotate(-45deg);z-index:2}.mobile-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:10001;align-items:center;justify-content:center;padding:20px}.mobile-modal.open{display:flex}.mobile-modal-card{background:#fff;color:#17202a;border-radius:18px;padding:18px;width:min(360px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.35)}
+  @media(max-width:800px){.demo-shell{height:96vh;width:min(430px,96vw)}.demo-side{width:235px}.dash-grid{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}.mobile-preview{width:100%}}
+  @media(max-width:600px){.demo-side{display:flex}.demo-content{padding:13px}.demo-top{padding:0 13px}.demo-shell{border-radius:16px}.dash-grid{gap:8px}.stat-card{padding:10px}}
+</style>
+</head>
+<body>
+
+<section class="page cover">
+  <div class="brand">NOSHAHI DEVELOPERS INC.</div>
+  <h1>Employee Location<br>Management System</h1>
+  <div class="subtitle">On-demand employee location validation with secure role-based access</div>
+  <div class="meta">
+    <div><strong>Prepared By</strong><span>Noshahi Developers Inc.</span></div>
+    <div><strong>Location</strong><span>Thokar Niaz Baig, Lahore</span></div>
+    <div><strong>Email</strong><span>noshahidevelopersinc@gmail.com</span></div>
+    <div><strong>Phone</strong><span>+92 328 1642297</span></div>
+    <div><strong>Proposal Date</strong><span>02 October 2025</span></div>
+  </div>
+  <div class="callout" style="margin-top:45px;text-align:left">
+    <strong>Core Product Principle</strong><br>
+    A Line Manager initiates an on-demand location validation for an assigned employee.
+    The system retrieves the employee device's current location and presents it to the manager.
+    There is no continuous GPS tracking or location history.
+  </div>
+</section>
+
+<section class="page">
+<div class="section">
+<h2>1. Executive Overview</h2>
+<p>The proposed Employee Location Management System is a role-based mobile application designed to help organizations validate the current whereabouts of employees when required.</p>
+<p>The system provides three roles: Admin, Line Manager, and Employee. The Admin manages users and employee-manager assignments. The Line Manager can view assigned employees and initiate an on-demand location validation. The Employee application provides the device's current location when the validation is triggered, subject to mobile-device permissions and platform availability.</p>
+<p>The system is specifically designed as an on-demand validation solution, not as a continuous employee-tracking platform.</p>
+</div>
+
+<div class="section">
+<h2>2. Objectives</h2>
+<ul>
+<li>Secure role-based login for Admin, Line Manager, and Employee.</li>
+<li>Manage employees and Line Manager assignments.</li>
+<li>Allow Line Managers to view their assigned employees.</li>
+<li>Allow an authorized Line Manager to initiate a current-location validation.</li>
+<li>Retrieve current GPS coordinates only when validation is initiated.</li>
+<li>Display the employee's current location on a map.</li>
+<li>Show location accuracy and timestamp.</li>
+<li>Prevent unauthorized managers from validating employees outside their assignment.</li>
+<li>Avoid continuous background GPS tracking and GPS location history.</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>3. User Roles</h2>
+<table>
+<tr><th>Role</th><th>Functionality</th></tr>
+<tr><td><strong>Admin</strong></td><td>Create/manage Line Managers and Employees, activate/deactivate users, assign employees to managers, change assignments, and manage system settings.</td></tr>
+<tr><td><strong>Line Manager</strong></td><td>View assigned employees, initiate current-location validation, and view the validated location on a map with accuracy and timestamp.</td></tr>
+<tr><td><strong>Employee</strong></td><td>Secure login, allow required device-location permission, and provide the device's current GPS location when a validation is initiated.</td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>4. On-Demand Employee Location Validation</h2>
+<p>The core workflow is designed around a manager validating an employee's current whereabouts. The manager does not ask the employee to manually share a location; the application initiates retrieval of the current device location.</p>
+<table>
+<tr><th class="step">Step</th><th>Process</th></tr>
+<tr><td class="step">1</td><td>Manager opens assigned employees</td></tr>
+<tr><td class="step">2</td><td>Manager selects an employee</td></tr>
+<tr><td class="step">3</td><td>Manager selects “Get Current Location”</td></tr>
+<tr><td class="step">4</td><td>Backend validates authorization and employee assignment</td></tr>
+<tr><td class="step">5</td><td>System creates the validation request</td></tr>
+<tr><td class="step">6</td><td>Employee application obtains current device GPS</td></tr>
+<tr><td class="step">7</td><td>Coordinates, accuracy and timestamp are sent to backend</td></tr>
+<tr><td class="step">8</td><td>Backend returns the current location</td></tr>
+<tr><td class="step">9</td><td>Manager views location on map</td></tr>
+</table>
+</div>
+</section>
+
+<section class="page">
+<div class="section">
+<h2>5. UI / User Experience Visualization</h2>
+<button class="demo-launch" onclick="openDemo()">▶ See Demo</button>
+<p class="demo-note">Interactive frontend prototype — mobile-style experience with Admin, Line Manager and Employee flows using dummy data.</p>
+<p class="small">The following conceptual screens illustrate how the manager-facing location-validation experience can work. These are functional UI references, not final visual designs.</p>
+<div class="screen">
+<div class="screen-title">Screen 01 — Employee List</div>
+<p>Manager sees assigned employees and the Get Location action.</p>
+<ul>
+<li>Ali Raza — GET LOCATION — Checked In</li>
+<li>Ahmed Khan — GET LOCATION — Checked In</li>
+<li>Usman Ali — GET LOCATION — Checked Out</li>
+</ul>
+</div>
+<div class="screen">
+<div class="screen-title">Screen 02 — Location Validation</div>
+<p>Manager initiates a current-location validation for the selected employee.</p>
+<p><strong>Validation Status:</strong> Retrieves current device location</p>
+<p><strong>Privacy:</strong> No continuous tracking</p>
+</div>
+<div class="screen">
+<div class="screen-title">Screen 03 — Location Result</div>
+<p><strong>Ali Raza</strong> — Assigned Employee</p>
+<p><strong>Accuracy:</strong> 15 m &nbsp; | &nbsp; <strong>Updated:</strong> Just now</p>
+<p><strong>Status:</strong> Location validated</p>
+</div>
+<p><strong>Example location result:</strong> Doctors Hospital, 152-G/1, Canal Bank, Phase 1 Johar Town, Lahore, Pakistan.</p>
+<p class="small">The displayed address is obtained from the validated GPS coordinates through map/geocoding services.</p>
+</div>
+
+<div class="section">
+<h2>6. Manager Location Validation Experience</h2>
+<h3>Screen 01 — Assigned Employees</h3>
+<p>The Line Manager sees only employees assigned to them. Each employee can have a clear action such as Get Current Location.</p>
+<h3>Screen 02 — Initiate Validation</h3>
+<p>The manager selects an employee and initiates a current-location validation. The backend first checks authentication, manager role, employee assignment, employee status, and any agreed business conditions.</p>
+<h3>Screen 03 — Current Location Result</h3>
+<p>Once the device location is successfully retrieved, the manager sees the employee's location on a map, together with location accuracy and the time at which the location was obtained.</p>
+</div>
+
+<div class="section">
+<h2>7. Privacy / Check-In &amp; Check-Out Business Rule</h2>
+<p>Check-in and check-out are not an attendance-management module in this project. They are included only as an optional business/privacy safeguard to determine whether an employee is currently considered active/working before allowing a location validation.</p>
+<div class="callout"><strong>Example Privacy Rule:</strong> A Line Manager may validate the current location only when the employee is in an eligible working state, such as “Checked In.” This helps limit location retrieval to legitimate work-related situations and reduces unnecessary location access.</div>
+</div>
+
+<div class="section">
+<h2>8. Core Modules</h2>
+<table>
+<tr><th>Module</th><th>Scope</th></tr>
+<tr><td>Authentication &amp; Authorization</td><td>Secure login, JWT authentication, role-based access and current-user information.</td></tr>
+<tr><td>User Management</td><td>Admin management of Line Managers and Employees.</td></tr>
+<tr><td>Employee Assignment</td><td>Assign, remove and change employee-manager relationships.</td></tr>
+<tr><td>Employee Location Validation</td><td>Initiate validation, authorization, GPS retrieval, coordinate submission, result handling, timeout and errors.</td></tr>
+<tr><td>Map &amp; Location Display</td><td>Map marker, accuracy, timestamp and current-location presentation.</td></tr>
+<tr><td>Privacy Controls</td><td>Permission handling, working-state eligibility and protection against unauthorized location access.</td></tr>
+<tr><td>Notifications</td><td>Technical/status notifications where required for the location-validation process.</td></tr>
+</table>
+</div>
+</section>
+
+<section class="page">
+<div class="section">
+<h2>9. Security &amp; Privacy</h2>
+<ul>
+<li>JWT-based authentication and role-based authorization.</li>
+<li>HTTPS communication between mobile application and backend.</li>
+<li>Secure password storage.</li>
+<li>Manager-to-employee authorization checks.</li>
+<li>Location permission handling on the employee device.</li>
+<li>Protection against unauthorized location validation.</li>
+<li>Input validation and API authorization.</li>
+<li>Request timeout/expiration handling.</li>
+<li>No continuous GPS tracking.</li>
+<li>No GPS location history unless separately approved as a future feature.</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>10. Proposed Technology Stack</h2>
+<table>
+<tr><th>Layer</th><th>Technology</th></tr>
+<tr><td>Mobile</td><td>React Native + Expo</td></tr>
+<tr><td>Location</td><td>Expo Location</td></tr>
+<tr><td>Notifications</td><td>Expo Notifications, where required</td></tr>
+<tr><td>Backend</td><td>ASP.NET Core Web API + Entity Framework Core + REST APIs</td></tr>
+<tr><td>Authentication</td><td>JWT + Role-Based Authorization</td></tr>
+<tr><td>Database</td><td>Microsoft SQL Server</td></tr>
+<tr><td>Maps</td><td>Google Maps or Mapbox</td></tr>
+<tr><td>Hosting</td><td>Azure or another agreed cloud provider</td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>11. Development Milestones</h2>
+<table>
+<tr><th>Week</th><th>Scope</th></tr>
+<tr><td><strong>Week 1 — Foundation, Users &amp; Location Workflow</strong></td><td>
+<ul>
+<li>Set Admin, Line Manager and Employee roles and authentication.</li>
+<li>Implement employee-manager assignments and authorization checks.</li>
+<li>Build the manager employee list and Get Current Location action.</li>
+<li>Implement validation request flow and employee device-location retrieval.</li>
+<li>Establish backend APIs, database models and core error/timeout handling.</li>
+</ul>
+</td></tr>
+<tr><td><strong>Week 2 — Map, Privacy, QA &amp; Launch</strong></td><td>
+<ul>
+<li>Complete map integration with readable address, accuracy and timestamp.</li>
+<li>Implement privacy/working-state rules and location permission handling.</li>
+<li>Complete Manager and Employee UI flows and notifications where required.</li>
+<li>Perform Android/iOS, GPS, network, security and end-to-end testing.</li>
+<li>Fix agreed MVP issues, deploy the system and provide handover/documentation.</li>
+</ul>
+</td></tr>
+</table>
+<p><strong>Planned Delivery Duration:</strong> 2 Weeks</p>
+<p>The two-week timeline covers the agreed MVP scope, testing and production handover. Any additional features or scope changes may require a revised timeline and estimate.</p>
+</div>
+</section>
+
+<section class="page">
+<div class="section">
+<h2>12. Project Deliverables</h2>
+<ul>
+<li>React Native mobile application.</li>
+<li>Admin functionality.</li>
+<li>Line Manager functionality.</li>
+<li>Employee functionality.</li>
+<li>ASP.NET Core Web API.</li>
+<li>SQL Server database.</li>
+<li>Authentication and authorization.</li>
+<li>Employee-manager assignment.</li>
+<li>On-demand employee location validation.</li>
+<li>Map integration and location visualization.</li>
+<li>Privacy/working-state validation rules.</li>
+<li>Location timeout and error handling.</li>
+<li>API documentation.</li>
+<li>Testing and production deployment assistance.</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>13. Out of Scope</h2>
+<ul>
+<li>Continuous GPS tracking.</li>
+<li>Continuous background location monitoring.</li>
+<li>GPS location history.</li>
+<li>Employee movement history.</li>
+<li>Geofencing.</li>
+<li>Route tracking.</li>
+<li>Location analytics.</li>
+<li>Automatic periodic location recording.</li>
+<li>Advanced HR/payroll functionality.</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>14. Estimated Project Cost</h2>
+
+<table class="cost">
+<tr><th>Item</th><th>Estimated Cost</th></tr>
+<tr><td>UI/UX Design</td><td>5,000 PKR</td></tr>
+<tr><td>Graphics &amp; Content</td><td>3,000 PKR</td></tr>
+<tr><td>Frontend Development</td><td>17,000 PKR</td></tr>
+<tr><td>Backend Development</td><td>35,000 PKR</td></tr>
+<tr class="total"><td>TOTAL</td><td>60,000 PKR</td></tr>
+</table>
+</div>
+
+<div class="section">
+<h2>15. Technical Considerations</h2>
+<ul>
+<li>Location retrieval depends on device permissions, GPS availability, internet connectivity, device state and Android/iOS platform restrictions.</li>
+<li>The system should not guarantee successful location retrieval in every device condition.</li>
+<li>The final implementation should be tested on both Android and iOS.</li>
+<li>The exact behavior when the employee application is backgrounded or closed must be validated against final mobile-platform requirements.</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>16. Conclusion</h2>
+<p>The estimated project cost for the agreed MVP scope is <strong>60,000 PKR</strong>.</p>
+<p>The estimate includes the two-week development, testing and deployment plan described in this proposal. Any additional scope should be estimated and approved separately.</p>
+<p>The proposed Employee Location Management System provides organizations with a focused and privacy-conscious way to validate an employee's current whereabouts when required.</p>
+<p>The Line Manager initiates a location validation for an assigned employee. The system verifies authorization, obtains the current device location subject to permissions and platform availability, and presents the result on a map with accuracy and timestamp information.</p>
+<p>Check-in/check-out is not presented as an attendance-management feature; where used, it serves only as a business/privacy condition to ensure location validation is limited to an eligible working state.</p>
+</div>
+
+<div class="section">
+<h2>Core Business Rule</h2>
+<div class="rule">
+An authorized Line Manager can initiate a current-location validation for an assigned employee.
+The system retrieves the current device location for that validation and does not continuously track employees or maintain GPS location history.
+</div>
+</div>
+
+<div class="footer">
+<span>Noshahi Developers Inc. | Thokar Niaz Baig, Lahore</span>
+<span>noshahidevelopersinc@gmail.com</span>
+</div>
+</section>
+
+
+<div id="demoOverlay" class="demo-overlay" aria-hidden="true">
+  <div class="demo-shell" onclick="event.stopPropagation()">
+    <aside class="demo-side">
+      <div class="demo-brand">EMPLOYEE LOCATION<span>NOSHAHI DEVELOPERS INC.</span></div>
+      <div class="role-tabs">
+        <button id="roleAdmin" onclick="switchRole('admin')">ADMIN</button>
+        <button id="roleManager" onclick="switchRole('manager')">MANAGER</button>
+        <button id="roleEmployee" onclick="switchRole('employee')">EMPLOYEE</button>
+      </div>
+      <div id="demoNav" class="demo-nav"></div>
+      <div class="demo-user"><strong id="demoUserName">Demo User</strong><span id="demoUserRole">Role</span></div>
+    </aside>
+    <main class="demo-main">
+      <header class="demo-top"><button class="close-demo" id="menuBtn" onclick="toggleDemoMenu()">☰</button><h3 id="demoTitle">Demo Login</h3><button class="close-demo" onclick="closeDemo()">×</button></header>
+      <div id="demoContent" class="demo-content"></div>
+    </main>
+  </div>
+</div>
+
+<div id="actionModal" class="mobile-modal" onclick="closeActionModal()">
+  <div class="mobile-modal-card" onclick="event.stopPropagation()">
+    <h3 id="modalTitle" style="margin:0 0 7px;color:#17365d;font-size:17px">Action</h3>
+    <p id="modalText" style="font-size:11px;color:#596673;margin:0 0 14px">Demo action.</p>
+    <button class="mobile-action" onclick="closeActionModal()">Done</button>
+  </div>
+</div>
+
+<script>
+const DEMO = {
+  admin:{name:'Sarah Ahmed',role:'Admin',pages:['Dashboard','Users','Assignments','Activity','Settings']},
+  manager:{name:'Ahmed Khan',role:'Line Manager',pages:['Dashboard','Employees','Location Requests','Profile']},
+  employee:{name:'Ali Raza',role:'Employee',pages:['Home','Location','Requests','Profile']}
+};
+let currentRole='admin', currentPage='Dashboard';
+
+function toggleDemoMenu(){document.querySelector('.demo-side').classList.toggle('open');}
+function closeDemoMenu(){document.querySelector('.demo-side').classList.remove('open');}
+function openDemo(){
+  document.getElementById('demoOverlay').classList.add('open');
+  document.getElementById('demoOverlay').setAttribute('aria-hidden','false');
+  showLogin();
+}
+function closeDemo(){
+  document.getElementById('demoOverlay').classList.remove('open');
+  document.getElementById('demoOverlay').setAttribute('aria-hidden','true');
+}
+function showLogin(){
+  document.getElementById('demoNav').innerHTML='';
+  document.getElementById('demoUserName').textContent='Not signed in';
+  document.getElementById('demoUserRole').textContent='Select a demo account';
+  document.getElementById('demoTitle').textContent='Secure Login';
+  document.getElementById('demoContent').innerHTML=`<div class="login-screen"><div class="login-card"><h2>Welcome back</h2><p>Employee Location Management System</p><div class="field"><label>Username</label><input id="loginUser" value="${currentRole==='admin'?'admin.demo':currentRole==='manager'?'manager.demo':'employee.demo'}"></div><div class="field"><label>Password</label><input id="loginPass" type="password" value="demo123"></div><div class="field"><label>Role</label><select id="loginRole" onchange="currentRole=this.value;document.getElementById('loginUser').value=this.value+'.demo'"><option value="admin" ${currentRole==='admin'?'selected':''}>Admin</option><option value="manager" ${currentRole==='manager'?'selected':''}>Line Manager</option><option value="employee" ${currentRole==='employee'?'selected':''}>Employee</option></select></div><button class="demo-btn" onclick="loginDemo()">Sign In</button><div class="demo-credentials"><strong>Demo credentials</strong><br>Admin: admin.demo / demo123<br>Manager: manager.demo / demo123<br>Employee: employee.demo / demo123</div></div></div>`;
+}
+function loginDemo(){
+  currentRole=document.getElementById('loginRole').value;
+  currentPage=DEMO[currentRole].pages[0];
+  document.getElementById('demoUserName').textContent=DEMO[currentRole].name;
+  document.getElementById('demoUserRole').textContent=DEMO[currentRole].role;
+  buildNav(); renderPage();
+}
+function switchRole(role){currentRole=role;showLogin();}
+function buildNav(){
+  closeDemoMenu();
+  document.getElementById('roleAdmin').classList.toggle('active',currentRole==='admin');
+  document.getElementById('roleManager').classList.toggle('active',currentRole==='manager');
+  document.getElementById('roleEmployee').classList.toggle('active',currentRole==='employee');
+  document.getElementById('demoNav').innerHTML=DEMO[currentRole].pages.map((p,i)=>`<button class="${p===currentPage?'active':''}" onclick="goPage('${p}')">${p}</button>`).join('')+`<button onclick="showLogin()" style="margin-top:8px;color:#e5a1aa">↪ Sign out</button>`;
+}
+function goPage(p){currentPage=p;buildNav();renderPage();}
+function setTitle(t){document.getElementById('demoTitle').textContent=t}
+function renderPage(){
+  if(currentRole==='admin') renderAdmin();
+  if(currentRole==='manager') renderManager();
+  if(currentRole==='employee') renderEmployee();
+}
+function renderAdmin(){
+ const c=document.getElementById('demoContent');
+ if(currentPage==='Dashboard') c.innerHTML=`<div class="dash-grid"><div class="stat-card"><div class="label">TOTAL USERS</div><div class="value">28</div><div class="hint">+3 this month</div></div><div class="stat-card"><div class="label">MANAGERS</div><div class="value">6</div><div class="hint">All active</div></div><div class="stat-card"><div class="label">EMPLOYEES</div><div class="value">22</div><div class="hint">18 checked in</div></div><div class="stat-card"><div class="label">VALIDATIONS</div><div class="value">47</div><div class="hint">Today</div></div></div><div class="demo-card"><h4>Recent location validations</h4>${rows(['Ali Raza|Ahmed Khan|2 min ago|15 m','Usman Ali|Sarah Ahmed|18 min ago|22 m','Hassan Javed|Ahmed Khan|42 min ago|11 m'])}</div><div class="demo-card"><h4>System status</h4><div class="notice success">● API operational · GPS validation service operational · Database connected</div></div>`;
+ else if(currentPage==='Users') c.innerHTML=`<div class="demo-card"><h4>User Management <button class="demo-btn" style="float:right" onclick="action('Create User','A new dummy user form would open here.')">+ Add User</button></h4>${userRow('Sarah Ahmed','Admin','Active','SA')}${userRow('Ahmed Khan','Line Manager','Active','AK')}${userRow('Ali Raza','Employee','Active','AR')}${userRow('Usman Ali','Employee','Active','UA')}${userRow('Hassan Javed','Employee','Inactive','HJ')}</div>`;
+ else if(currentPage==='Assignments') c.innerHTML=`<div class="demo-card"><h4>Employee → Manager Assignments</h4><table class="table-like"><tr><th>Employee</th><th>Manager</th><th>Status</th><th></th></tr><tr><td>Ali Raza</td><td>Ahmed Khan</td><td>Active</td><td><button class="demo-btn secondary" onclick="action('Assignment','Ali Raza is assigned to Ahmed Khan.')">Edit</button></td></tr><tr><td>Usman Ali</td><td>Sarah Ahmed</td><td>Active</td><td><button class="demo-btn secondary" onclick="action('Assignment','Usman Ali is assigned to Sarah Ahmed.')">Edit</button></td></tr><tr><td>Hassan Javed</td><td>Ahmed Khan</td><td>Active</td><td><button class="demo-btn secondary" onclick="action('Assignment','Hassan Javed is assigned to Ahmed Khan.')">Edit</button></td></tr></table></div>`;
+ else if(currentPage==='Activity') c.innerHTML=`<div class="demo-card"><h4>Activity Log</h4>${rows(['Ahmed Khan|Validated Ali Raza|2 min ago|Successful','Sarah Ahmed|Updated assignment|18 min ago|Successful','Ahmed Khan|Validated Hassan Javed|42 min ago|Successful','Admin|Created employee|Today 09:14|Successful'])}</div>`;
+ else c.innerHTML=`<div class="demo-card"><h4>System Settings</h4><div class="notice">Location validation is on-demand only. Continuous GPS tracking and GPS history are disabled.</div><div class="form-grid"><div class="field"><label>Validation expiry</label><select><option>2 minutes</option><option>5 minutes</option><option>10 minutes</option></select></div><div class="field"><label>Working-state rule</label><select><option>Checked In required</option><option>Always allow</option></select></div></div><button class="demo-btn" style="margin-top:12px" onclick="action('Settings Saved','Demo settings have been saved locally.')">Save Settings</button></div>`;
+ setTitle('Admin · '+currentPage);
+}
+function renderManager(){
+ const c=document.getElementById('demoContent');
+ if(currentPage==='Dashboard') c.innerHTML=`<div class="dash-grid"><div class="stat-card"><div class="label">MY EMPLOYEES</div><div class="value">8</div><div class="hint">3 checked in</div></div><div class="stat-card"><div class="label">VALIDATIONS</div><div class="value">12</div><div class="hint">Today</div></div><div class="stat-card"><div class="label">SUCCESS RATE</div><div class="value">96%</div><div class="hint">Last 30 days</div></div><div class="stat-card"><div class="label">PENDING</div><div class="value">1</div><div class="hint">Awaiting response</div></div></div><div class="demo-card"><h4>Assigned employees</h4>${managerEmployee('Ali Raza','Checked In','15 m')}${managerEmployee('Hassan Javed','Checked In','—')}${managerEmployee('Usman Ali','Checked Out','—')}</div>`;
+ else if(currentPage==='Employees') c.innerHTML=`<div class="demo-card"><h4>My Employees</h4>${managerEmployee('Ali Raza','Checked In','15 m',true)}${managerEmployee('Hassan Javed','Checked In','—',true)}${managerEmployee('Usman Ali','Checked Out','—',true)}${managerEmployee('Bilal Shah','Checked In','—',true)}</div>`;
+ else if(currentPage==='Location Requests') c.innerHTML=`<div class="demo-card"><h4>Current Location Validation</h4><div class="notice warning">Validation retrieves current device location only. No continuous tracking.</div><div class="field"><label>Select employee</label><select id="managerEmployee"><option>Ali Raza — Checked In</option><option>Hassan Javed — Checked In</option><option>Usman Ali — Checked Out</option></select></div><button class="demo-btn" style="margin-top:12px" onclick="validateLocation()">Get Current Location</button></div><div id="locationResult"></div>`;
+ else c.innerHTML=`<div class="demo-card"><div class="profile"><div class="big-avatar">AK</div><div><strong>Ahmed Khan</strong><div style="font-size:10px;color:#8191a8;margin-top:3px">Line Manager · 8 assigned employees</div></div></div></div><div class="demo-card"><h4>Account</h4><div class="notice">Email: ahmed.khan@example.com<br>Last login: Today, 09:02 AM</div><button class="demo-btn secondary" onclick="action('Profile','Profile editing is available in the production application.')">Edit Profile</button></div>`;
+ setTitle('Manager · '+currentPage);
+}
+function renderEmployee(){
+ const c=document.getElementById('demoContent');
+ if(currentPage==='Home') c.innerHTML=`<div class="mobile-preview"><div class="mobile-status"><span>9:41</span><span>▮▮▮  Wi-Fi  87%</span></div><div class="mobile-head"><strong>Good morning, Ali</strong><span>Employee · Current location status</span></div><div class="mobile-body"><div class="mobile-card"><h5>Work Status</h5><div style="display:flex;justify-content:space-between;align-items:center"><strong style="font-size:12px">Checked In</strong><span class="status">ACTIVE</span></div><button class="mobile-action green" style="margin-top:10px" onclick="action('Check-in','You are already checked in for this demo.')">Checked In</button></div><div class="mobile-card"><h5>Location Permission</h5><p style="font-size:9px;color:#6b7887">Your device location permission is enabled for on-demand validation.</p><button class="mobile-action" onclick="action('Permission','Location permission is enabled in this demo.')">Permission Details</button></div></div><div class="mobile-nav"><button class="active">⌂<br>Home</button><button>⌖<br>Location</button><button>◷<br>Requests</button><button>◯<br>Profile</button></div></div>`;
+ else if(currentPage==='Location') c.innerHTML=`<div class="mobile-preview"><div class="mobile-status"><span>9:41</span><span>▮▮▮ Wi-Fi 87%</span></div><div class="mobile-head"><strong>My Location</strong><span>Only shared when a validation is requested</span></div><div class="mobile-body"><div class="mobile-card"><h5>Current device location</h5><div class="mini-map"><div class="mini-pin"></div></div><p style="font-size:9px;color:#69788a;margin-bottom:5px">GPS accuracy: <strong>15 m</strong></p><p style="font-size:9px;color:#69788a">Updated: Just now</p></div><div class="mobile-card"><div class="notice success" style="margin:0">No continuous tracking · No location history</div></div></div><div class="mobile-nav"><button>⌂<br>Home</button><button class="active">⌖<br>Location</button><button>◷<br>Requests</button><button>◯<br>Profile</button></div></div>`;
+ else if(currentPage==='Requests') c.innerHTML=`<div class="mobile-preview"><div class="mobile-status"><span>9:41</span><span>▮▮▮ Wi-Fi 87%</span></div><div class="mobile-head"><strong>Location Requests</strong><span>Manager validation requests</span></div><div class="mobile-body"><div class="mobile-card"><div style="display:flex;justify-content:space-between"><strong style="font-size:11px">Ahmed Khan</strong><span class="status">COMPLETED</span></div><p style="font-size:9px;color:#69788a">Current location validated · 2 min ago</p></div><div class="mobile-card"><div style="display:flex;justify-content:space-between"><strong style="font-size:11px">Ahmed Khan</strong><span class="status">COMPLETED</span></div><p style="font-size:9px;color:#69788a">Current location validated · Yesterday 4:21 PM</p></div></div><div class="mobile-nav"><button>⌂<br>Home</button><button>⌖<br>Location</button><button class="active">◷<br>Requests</button><button>◯<br>Profile</button></div></div>`;
+ else c.innerHTML=`<div class="mobile-preview"><div class="mobile-status"><span>9:41</span><span>▮▮▮ Wi-Fi 87%</span></div><div class="mobile-head"><strong>My Profile</strong><span>Employee account</span></div><div class="mobile-body"><div class="mobile-card"><div class="profile"><div class="big-avatar" style="width:40px;height:40px;font-size:11px">AR</div><div><strong>Ali Raza</strong><div style="font-size:9px;color:#69788a">Employee ID: EMP-1007</div></div></div></div><div class="mobile-card"><p style="font-size:9px;color:#69788a;margin:0 0 7px">Email</p><strong style="font-size:11px">ali.raza@example.com</strong><hr style="border:0;border-top:1px solid #e6ebef;margin:10px 0"><p style="font-size:9px;color:#69788a;margin:0 0 7px">Assigned Manager</p><strong style="font-size:11px">Ahmed Khan</strong></div></div><div class="mobile-nav"><button>⌂<br>Home</button><button>⌖<br>Location</button><button>◷<br>Requests</button><button class="active">◯<br>Profile</button></div></div>`;
+ setTitle('Employee · '+currentPage);
+}
+function rows(items){return items.map(x=>{let a=x.split('|');return `<div class="employee-row"><div class="avatar">${a[0].split(' ').map(w=>w[0]).join('').slice(0,2)}</div><div class="emp-info"><strong>${a[0]}</strong><span>${a[1]} · ${a[2]}</span></div><span style="font-size:10px;color:#9eb0c6">${a[3]}</span></div>`}).join('')}
+function userRow(name,role,status,initials){return `<div class="employee-row"><div class="avatar">${initials}</div><div class="emp-info"><strong>${name}</strong><span>${role}</span></div><span class="status ${status==='Inactive'?'off':''}">${status}</span><button class="demo-btn secondary" onclick="action('User Details','${name} · ${role} · ${status}')">View</button></div>`}
+function managerEmployee(name,status,accuracy,button=false){return `<div class="employee-row employee-clickable" onclick="openEmployeeLocation('${name}','${status}','${accuracy}')"><div class="avatar">${name.split(' ').map(w=>w[0]).join('')}</div><div class="emp-info"><strong>${name}</strong><span>${status}${accuracy!=='—'?' · Last accuracy '+accuracy:''}</span></div><span class="status ${status==='Checked Out'?'off':''}">${status}</span>${button?`<button class="demo-btn" onclick="event.stopPropagation();requestEmployee('${name}')">Get Location</button>`:''}</div>`}
+function openEmployeeLocation(name,status,accuracy){
+  const c=document.getElementById('demoContent');
+  if(status==='Checked Out'){
+    c.innerHTML=`<div class="demo-card"><button class="demo-btn secondary" onclick="goPage('Dashboard')">← Back to Dashboard</button><h4 style="margin-top:14px">${name}</h4><div class="notice warning">Location validation is unavailable because this employee is currently Checked Out. The demo follows the proposal's working-state privacy rule.</div></div>`;
+    setTitle('Manager · Employee');
+    return;
+  }
+  const acc=accuracy==='—'?'15 m':accuracy;
+  c.innerHTML=`<div class="demo-card location-result-card"><button class="demo-btn secondary" onclick="goPage('Dashboard')">← Back to Dashboard</button><div style="margin:18px 0 14px"><div style="font-size:10px;color:#8191a8;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Employee Location Result</div><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px"><div><h4 style="margin:0;font-size:18px">${name}</h4><div style="font-size:10px;color:#8191a8;margin-top:4px">Assigned Employee · ${status}</div></div><span class="status">LOCATION VALIDATED</span></div></div><div class="map-box"><div class="map-grid"></div><div class="map-road"></div><div class="map-road r2"></div><div class="map-pin"></div><div class="map-label"><strong>Current Location</strong><br>Doctors Hospital, 152-G/1, Canal Bank, Phase 1 Johar Town, Lahore<br>Accuracy ${acc} · Just now</div></div><div class="notice success" style="margin-top:12px">✓ Authorization verified · ✓ Assignment verified · ✓ Current location received</div><div class="form-grid"><div class="stat-card"><div class="label">ACCURACY</div><div class="value" style="font-size:17px">${acc}</div><div class="hint">GPS result</div></div><div class="stat-card"><div class="label">UPDATED</div><div class="value" style="font-size:17px">Just now</div><div class="hint">Current request</div></div></div><div class="notice" style="margin-top:12px">This validation retrieves the employee's current device location only. No continuous tracking or location history is used.</div></div>`;
+  setTitle('Manager · '+name);
+}
+function requestEmployee(name){action('Location Request Sent',`A current-location validation request was created for ${name}. Dummy response: GPS accuracy 15 m.`)}
+function validateLocation(){let n=document.getElementById('managerEmployee').value.split(' — ')[0];document.getElementById('locationResult').innerHTML=`<div class="demo-card"><h4>Location Result · ${n}</h4><div class="map-box"><div class="map-grid"></div><div class="map-road"></div><div class="map-road r2"></div><div class="map-pin"></div><div class="map-label"><strong>Current Location</strong><br>Doctors Hospital, Lahore<br>Accuracy 15 m · Just now</div></div><div class="notice success" style="margin-top:12px">✓ Authorization verified · ✓ Assignment verified · ✓ Current location received</div></div>`}
+function action(title,text){document.getElementById('modalTitle').textContent=title;document.getElementById('modalText').textContent=text;document.getElementById('actionModal').classList.add('open')}
+function closeActionModal(){document.getElementById('actionModal').classList.remove('open')}
+</script>
+</body>
+</html>
