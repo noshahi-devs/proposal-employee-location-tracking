@@ -160,7 +160,7 @@
 <section class="page cover">
   <div class="brand">NOSHAHI DEVELOPERS INC.</div>
   <h1>Employee Location<br>Management System</h1>
-  <div class="subtitle">Employee location validation and optional real-time GPS tracking</div>
+  <div class="subtitle">On-demand employee location validation with secure role-based access</div>
   <div class="meta">
     <div><strong>Prepared By</strong><span>Noshahi Developers Inc.</span></div>
     <div><strong>Location</strong><span>Thokar Niaz Baig, Lahore</span></div>
@@ -170,7 +170,9 @@
   </div>
   <div class="callout" style="margin-top:45px;text-align:left">
     <strong>Core Product Principle</strong><br>
-    The core MVP supports on-demand location validation. The optional Live Employee Tracking add-on lets an authorized manager select an assigned employee and follow their moving GPS position on a live map, including while the employee app is minimized or the phone is locked, subject to device permissions and operating-system restrictions.
+    A Line Manager initiates an on-demand location validation for an assigned employee.
+    The system retrieves the employee device's current location and presents it to the manager.
+    There is no continuous GPS tracking or location history.
   </div>
 </section>
 
@@ -179,7 +181,7 @@
 <h2>1. Executive Overview</h2>
 <p>The proposed Employee Location Management System is a role-based mobile application designed to help organizations validate the current whereabouts of employees when required.</p>
 <p>The system provides three roles: Admin, Line Manager, and Employee. The Admin manages users and employee-manager assignments. The Line Manager can view assigned employees and initiate an on-demand location validation. The Employee application provides the device's current location when the validation is triggered, subject to mobile-device permissions and platform availability.</p>
-<p>The core MVP supports on-demand location validation. A separately approved Live Employee Tracking add-on adds driver-style real-time map tracking: a manager selects an assigned employee and watches the employee marker move as GPS updates arrive. Background tracking is intended to continue when the employee app is minimized or the phone is locked, subject to mobile OS permissions, battery policies, connectivity and device state. Historical route records remain a separate optional add-on.</p>
+<p>The system is specifically designed as an on-demand validation solution, not as a continuous employee-tracking platform.</p>
 </div>
 
 <div class="section">
@@ -193,10 +195,7 @@
 <li>Display the employee's current location on a map.</li>
 <li>Show location accuracy and timestamp.</li>
 <li>Prevent unauthorized managers from validating employees outside their assignment.</li>
-<li>Keep continuous background tracking and historical location recording outside the core MVP unless separately approved as add-ons.</li>
-<li>For the Live Employee Tracking add-on, allow a manager to select an assigned employee and view continuously refreshed GPS position on a map.</li>
-<li>Support background location updates while the employee app is minimized or the screen is locked, where permitted by Android/iOS and device settings.</li>
-<li>Show tracking state, last update time, GPS accuracy, signal/offline status, and an optional route trail.</li>
+<li>Avoid continuous background GPS tracking and GPS location history.</li>
 </ul>
 </div>
 
@@ -232,7 +231,7 @@
 <div class="section">
 <h2>5. UI / User Experience Visualization</h2>
 <button class="demo-launch" onclick="openDemo()">▶ See Demo</button>
-<p class="demo-note">Interactive frontend prototype — includes a simulated moving-map experience for the optional Live Employee Tracking add-on. All map positions and updates are fictional sample data.</p>
+<p class="demo-note">Interactive frontend prototype — mobile-style experience with Admin, Line Manager and Employee flows using dummy data.</p>
 <p class="small">The following conceptual screens illustrate how the manager-facing location-validation experience can work. These are functional UI references, not final visual designs.</p>
 <div class="screen">
 <div class="screen-title">Screen 01 — Employee List</div>
@@ -250,7 +249,7 @@
 <p><strong>Privacy:</strong> No continuous tracking</p>
 </div>
 <div class="screen">
-<div class="screen-title">Screen 03 — Live Tracking / Location Result</div>
+<div class="screen-title">Screen 03 — Location Result</div>
 <p><strong>Ali Raza</strong> — Assigned Employee</p>
 <p><strong>Accuracy:</strong> 15 m &nbsp; | &nbsp; <strong>Updated:</strong> Just now</p>
 <p><strong>Status:</strong> Location validated</p>
@@ -263,10 +262,10 @@
 <h2>6. Manager Location Validation Experience</h2>
 <h3>Screen 01 — Assigned Employees</h3>
 <p>The Line Manager sees only employees assigned to them. Each employee can have a clear action such as Get Current Location.</p>
-<h3>Screen 02 — One-Time Location Validation</h3>
-<p>The manager can request a single current location. The backend checks authentication, manager role, employee assignment, employee status, and agreed business conditions.</p>
-<h3>Screen 03 — Live Employee Tracking (Optional Add-on)</h3>
-<p>The manager selects an assigned employee, starts tracking, and watches their marker move as repeated GPS updates arrive. The map shows last update time, GPS accuracy, live/stale/offline status, and the route for the current session. Background updates are designed to continue when the app is minimized or the phone is locked, subject to platform permissions and restrictions.</p>
+<h3>Screen 02 — Initiate Validation</h3>
+<p>The manager selects an employee and initiates a current-location validation. The backend first checks authentication, manager role, employee assignment, employee status, and any agreed business conditions.</p>
+<h3>Screen 03 — Current Location Result</h3>
+<p>Once the device location is successfully retrieved, the manager sees the employee's location on a map, together with location accuracy and the time at which the location was obtained.</p>
 </div>
 
 <div class="section">
@@ -287,14 +286,6 @@
 <tr><td>Privacy Controls</td><td>Permission handling, working-state eligibility and protection against unauthorized location access.</td></tr>
 <tr><td>Notifications</td><td>Technical/status notifications where required for the location-validation process.</td></tr>
 </table>
-<h3>Optional Add-on Modules</h3>
-<p>The following modules can be added independently to the core MVP. They are optional and are not included in the core MVP scope or price.</p>
-<table>
-<tr><th>Module</th><th>Scope</th></tr>
-<tr><td><strong>Live Employee Tracking</strong></td><td>Manager selects an assigned employee and watches their moving GPS marker on a map, similar to driver/train tracking. Repeated location updates, authorized start/stop controls, last-update time, GPS accuracy, connection/stale status, and a route trail for the active session. Background tracking is supported when the app is minimized or the phone is locked, subject to OS permissions and restrictions.</td></tr>
-<tr><td><strong>Historical Location &amp; Route Analytics</strong></td><td>Review recorded location history, routes, timestamps, timeline, and available visited-place estimates for an agreed retention period.</td></tr>
-<tr><td><strong>Configurable Notifications &amp; Alerts</strong></td><td>Configure alerts for agreed location-related events and view notification history.</td></tr>
-</table>
 </div>
 </section>
 
@@ -310,11 +301,8 @@
 <li>Protection against unauthorized location validation.</li>
 <li>Input validation and API authorization.</li>
 <li>Request timeout/expiration handling.</li>
-<li>Core MVP does not perform continuous GPS tracking.</li>
-<li>Historical location recording is excluded from the core MVP and requires separate add-on approval.</li>
-<li>Optional tracking and history features must use appropriate employee notice and applicable consent or other lawful authorization.</li>
-<li>Access to live and historical location data should be limited to authorized roles and retained only for an agreed period.</li>
-<li>Access to sensitive location records should be auditable where included in the agreed scope.</li>
+<li>No continuous GPS tracking.</li>
+<li>No GPS location history unless separately approved as a future feature.</li>
 </ul>
 </div>
 
@@ -323,10 +311,9 @@
 <table>
 <tr><th>Layer</th><th>Technology</th></tr>
 <tr><td>Mobile</td><td>React Native + Expo</td></tr>
-<tr><td>Location</td><td>Expo Location; background location tasks and platform-specific permissions for the approved tracking add-on</td></tr>
+<tr><td>Location</td><td>Expo Location</td></tr>
 <tr><td>Notifications</td><td>Expo Notifications, where required</td></tr>
 <tr><td>Backend</td><td>ASP.NET Core Web API + Entity Framework Core + REST APIs</td></tr>
-<tr><td>Live updates</td><td>SignalR (or an equivalent real-time channel) to push incoming GPS updates to the manager dashboard</td></tr>
 <tr><td>Authentication</td><td>JWT + Role-Based Authorization</td></tr>
 <tr><td>Database</td><td>Microsoft SQL Server</td></tr>
 <tr><td>Maps</td><td>Google Maps or Mapbox</td></tr>
@@ -357,16 +344,8 @@
 </ul>
 </td></tr>
 </table>
-<p><strong>Planned Core MVP Delivery Duration:</strong> 2 Weeks</p>
-<p>The two-week timeline covers only the core MVP scope, testing and production handover. Optional add-on modules are not included in this schedule.</p>
-<table>
-<tr><th>Optional Add-on Workstream</th><th>Estimated Schedule</th></tr>
-<tr><td>Live Employee Tracking (including background GPS and live map updates)</td><td>1 week — estimate subject to confirmation of device/platform requirements</td></tr>
-<tr><td>Historical Location &amp; Route Analytics</td><td>1 week</td></tr>
-<tr><td>Configurable Notifications &amp; Alerts</td><td>3 days</td></tr>
-<tr><td><strong>Combined add-on planning estimate</strong></td><td><strong>Up to 19 working days</strong></td></tr>
-</table>
-<p>Optional add-on work will begin after the scope and commercial terms are approved. Final sequencing and delivery dates will be confirmed during planning.</p>
+<p><strong>Planned Delivery Duration:</strong> 2 Weeks</p>
+<p>The two-week timeline covers the agreed MVP scope, testing and production handover. Any additional features or scope changes may require a revised timeline and estimate.</p>
 </div>
 </section>
 
@@ -392,7 +371,23 @@
 </div>
 
 <div class="section">
-<h2>13. Estimated Project Cost</h2>
+<h2>13. Out of Scope</h2>
+<ul>
+<li>Continuous GPS tracking.</li>
+<li>Continuous background location monitoring.</li>
+<li>GPS location history.</li>
+<li>Employee movement history.</li>
+<li>Geofencing.</li>
+<li>Route tracking.</li>
+<li>Location analytics.</li>
+<li>Automatic periodic location recording.</li>
+<li>Advanced HR/payroll functionality.</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>14. Estimated Project Cost</h2>
+
 <table class="cost">
 <tr><th>Item</th><th>Estimated Cost</th></tr>
 <tr><td>UI/UX Design</td><td>5,000 PKR</td></tr>
@@ -404,29 +399,12 @@
 </div>
 
 <div class="section">
-<h2>14. Optional Add-on Modules — Commercial Summary</h2>
-<p>The following optional add-on modules are separate from the existing MVP scope and price. Estimates are subject to confirmation of the final requirements and technical feasibility.</p>
-<table class="cost">
-<tr><th>Add-on Module</th><th>Estimated Time</th><th>Cost</th></tr>
-<tr><td>Live Employee Tracking</td><td>1 week</td><td>PKR 15,000</td></tr>
-<tr><td>Historical Location &amp; Route Analytics</td><td>1 week</td><td>PKR 20,000</td></tr>
-<tr><td>Configurable Notifications &amp; Alerts</td><td>3 days</td><td>PKR 5,000</td></tr>
-<tr class="total"><td><strong>Total</strong></td><td><strong>Up to 19 working days</strong></td><td><strong>PKR 40,000</strong></td></tr>
-</table>
-<p class="small">These are estimated development times and costs for optional add-ons. Final scope, technical feasibility, and delivery dates should be confirmed before development. The modules are separate from the existing MVP.</p>
-</div>
-
-<div class="section">
 <h2>15. Technical Considerations</h2>
 <ul>
 <li>Location retrieval depends on device permissions, GPS availability, internet connectivity, device state and Android/iOS platform restrictions.</li>
 <li>The system should not guarantee successful location retrieval in every device condition.</li>
 <li>The final implementation should be tested on both Android and iOS.</li>
 <li>The exact behavior when the employee application is backgrounded or closed must be validated against final mobile-platform requirements.</li>
-<li>Live tracking is a separately approved add-on. The employee app should send repeated GPS updates while tracking is enabled; SignalR or an equivalent real-time channel should deliver updates to the selected manager's map without a manual refresh.</li>
-<li>Background GPS should be implemented with the platform-approved Android/iOS permissions and background execution approach. The OS may throttle or stop updates due to force-stop, battery optimization, revoked permission, loss of GPS, no network, or device shutdown; uninterrupted tracking cannot be guaranteed.</li>
-<li>Agree the update interval, tracking hours, employee notice/authorization, data access, and retention before implementation. A suggested starting interval is about 5–15 seconds while moving, adjusted after battery and accuracy testing.</li>
-<li>The interactive HTML demo uses fictional simulated movement only. It does not access device GPS, run in the background, or send real-time data to a server.</li>
 </ul>
 </div>
 
@@ -434,7 +412,7 @@
 <h2>16. Conclusion</h2>
 <p>The estimated project cost for the agreed MVP scope is <strong>60,000 PKR</strong>.</p>
 <p>The estimate includes the two-week development, testing and deployment plan described in this proposal. Any additional scope should be estimated and approved separately.</p>
-<p>The proposed Employee Location Management System provides on-demand location validation in the core MVP, with an optional driver-style live tracking add-on that lets authorized managers follow assigned employees on a moving map. Background tracking is subject to mobile-platform permissions and operational constraints.</p>
+<p>The proposed Employee Location Management System provides organizations with a focused and privacy-conscious way to validate an employee's current whereabouts when required.</p>
 <p>The Line Manager initiates a location validation for an assigned employee. The system verifies authorization, obtains the current device location subject to permissions and platform availability, and presents the result on a map with accuracy and timestamp information.</p>
 <p>Check-in/check-out is not presented as an attendance-management feature; where used, it serves only as a business/privacy condition to ensure location validation is limited to an eligible working state.</p>
 </div>
@@ -442,8 +420,8 @@
 <div class="section">
 <h2>Core Business Rule</h2>
 <div class="rule">
-Core MVP: an authorized Line Manager can request a one-time current location for an assigned employee.<br><br>
-Optional Live Tracking: select an assigned employee and follow their moving GPS marker on a map, including background updates when the app is minimized or the phone is locked where supported by device permissions and OS policy. Historical route storage remains a separate add-on.
+An authorized Line Manager can initiate a current-location validation for an assigned employee.
+The system retrieves the current device location for that validation and does not continuously track employees or maintain GPS location history.
 </div>
 </div>
 
@@ -484,15 +462,10 @@ Optional Live Tracking: select an assigned employee and follow their moving GPS 
 <script>
 const DEMO = {
   admin:{name:'Sarah Ahmed',role:'Admin',pages:['Dashboard','Users','Assignments','Activity','Settings']},
-  manager:{name:'Ahmed Khan',role:'Line Manager',pages:['Dashboard','Employees','Location Requests','Live Tracking','Location History','Alerts','Profile']},
+  manager:{name:'Ahmed Khan',role:'Line Manager',pages:['Dashboard','Employees','Location Requests','Profile']},
   employee:{name:'Ali Raza',role:'Employee',pages:['Home','Location','Requests','Profile']}
 };
 let currentRole='admin', currentPage='Dashboard';
-let liveTrackingActive=false;
-let liveTrackingEmployee='Ali Raza';
-let liveTick=0;
-let liveTimer=null;
-let alertPreferences={checkedOut:true,lowAccuracy:true,geofence:false,missedUpdate:true};
 
 function toggleDemoMenu(){document.querySelector('.demo-side').classList.toggle('open');}
 function closeDemoMenu(){document.querySelector('.demo-side').classList.remove('open');}
@@ -543,69 +516,18 @@ function renderAdmin(){
  else c.innerHTML=`<div class="demo-card"><h4>System Settings</h4><div class="notice">Location validation is on-demand only. Continuous GPS tracking and GPS history are disabled.</div><div class="form-grid"><div class="field"><label>Validation expiry</label><select><option>2 minutes</option><option>5 minutes</option><option>10 minutes</option></select></div><div class="field"><label>Working-state rule</label><select><option>Checked In required</option><option>Always allow</option></select></div></div><button class="demo-btn" style="margin-top:12px" onclick="action('Settings Saved','Demo settings have been saved locally.')">Save Settings</button></div>`;
  setTitle('Admin · '+currentPage);
 }
-
-const demoTrackPoints = [
-  {left: '18%', top: '66%', place: 'Canal Bank Road, Lahore'},
-  {left: '25%', top: '59%', place: 'Near Thokar Niaz Baig, Lahore'},
-  {left: '34%', top: '52%', place: 'Multan Road, Lahore'},
-  {left: '43%', top: '45%', place: 'Canal Road, Lahore'},
-  {left: '52%', top: '38%', place: 'Johar Town, Lahore'},
-  {left: '61%', top: '43%', place: 'Near Expo Centre, Lahore'},
-  {left: '70%', top: '34%', place: 'Faisal Town, Lahore'},
-  {left: '78%', top: '42%', place: 'Model Town Link Road, Lahore'}
-];
-function renderLiveTracking(){
-  const c=document.getElementById('demoContent');
-  const point=demoTrackPoints[liveTick % demoTrackPoints.length];
-  const isLive=liveTrackingActive;
-  c.innerHTML=`
-  <div class="notice warning"><strong>SIMULATED DEMO ONLY.</strong> The marker moves using fictional sample coordinates. This prototype does not access a phone's GPS or send server updates. Production background tracking requires real mobile GPS integration.</div>
-  <div class="demo-card"><h4>Track an Assigned Employee</h4>
-    <div class="form-grid">
-      <div class="field"><label>Select employee</label><select id="liveEmployeeSelect" onchange="changeLiveEmployee(this.value)"><option ${liveTrackingEmployee==='Ali Raza'?'selected':''}>Ali Raza</option><option ${liveTrackingEmployee==='Hassan Javed'?'selected':''}>Hassan Javed</option><option ${liveTrackingEmployee==='Bilal Shah'?'selected':''}>Bilal Shah</option></select></div>
-      <div class="field"><label>Update interval (demo)</label><select id="liveInterval" onchange="restartLiveTimer()"><option value="2000">2 seconds</option><option value="3000">3 seconds</option><option value="5000">5 seconds</option></select></div>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><button class="demo-btn" onclick="toggleLiveTracking(true)" ${isLive?'disabled':''}>▶ Start Tracking</button><button class="demo-btn danger" onclick="toggleLiveTracking(false)" ${!isLive?'disabled':''}>■ Stop Tracking</button><button class="demo-btn secondary" onclick="action('Background GPS & permissions','Production requires employee notice and authorization, foreground/background location permissions, platform-specific configuration, and testing on real Android/iOS devices. Updates can be delayed or stopped by OS policy, battery optimization, GPS or network loss.')">Background GPS details</button></div>
-  </div>
-  <div class="dash-grid">
-    <div class="stat-card"><div class="label">TRACKING STATUS</div><div class="value" style="font-size:16px;color:${isLive?'#65d8a1':'#e6c67c'}">${isLive?'● LIVE':'STOPPED'}</div><div class="hint">${isLive?'Simulated updates running':'Tracking is not active'}</div></div>
-    <div class="stat-card"><div class="label">SELECTED EMPLOYEE</div><div class="value" style="font-size:15px">${liveTrackingEmployee}</div><div class="hint">Assigned to you</div></div>
-    <div class="stat-card"><div class="label">GPS ACCURACY</div><div class="value" style="font-size:16px">${isLive?(12+(liveTick%9))+' m':'—'}</div><div class="hint">Fictional sample</div></div>
-    <div class="stat-card"><div class="label">LAST UPDATE</div><div class="value" style="font-size:14px">${isLive?'Just now':'Not updating'}</div><div class="hint">${isLive?'Demo point '+(liveTick+1):'Start tracking to simulate'}</div></div>
-  </div>
-  <div class="demo-card"><h4>Live Map · ${liveTrackingEmployee}</h4>
-    <div class="map-box" style="height:310px;background:#142a36">
-      <div class="map-grid" style="background-size:36px 36px;opacity:.45"></div>
-      <div style="position:absolute;inset:-40px;background:linear-gradient(28deg,transparent 44%,#465a69 44%,#465a69 46%,transparent 46%),linear-gradient(110deg,transparent 24%,#34495b 24%,#34495b 26%,transparent 26%),linear-gradient(165deg,transparent 63%,#34495b 63%,#34495b 65%,transparent 65%);opacity:.9"></div>
-      <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none"><polyline points="18,66 25,59 34,52 43,45 52,38 61,43 70,34 78,42" fill="none" stroke="#65d8a1" stroke-width="1.3" stroke-dasharray="2 1" opacity=".9"/><polyline points="18,66 ${demoTrackPoints.slice(1,(liveTick%7)+2).map(p=>`${parseFloat(p.left)},${parseFloat(p.top)}`).join(' ')}" fill="none" stroke="#77a8ff" stroke-width="1.6" opacity=".95"/></svg>
-      <div class="map-pin" style="left:${point.left};top:${point.top};width:20px;height:20px;transition:left .7s ease,top .7s ease;z-index:3"></div>
-      <div style="position:absolute;left:calc(${point.left} + 12px);top:calc(${point.top} - 25px);background:#0b1220ed;border:1px solid #65d8a1;color:#eaf0f7;padding:5px 7px;border-radius:7px;font-size:9px;white-space:nowrap;z-index:4">${liveTrackingEmployee} · ${isLive?'LIVE':'LAST POSITION'}</div>
-      <div class="map-label"><strong>${isLive?'● Live simulated position':'Last known sample position'}</strong><br>${point.place}<br>Accuracy ${isLive?(12+(liveTick%9))+' m':'—'} · ${isLive?'Updated just now':'Updates stopped'}</div>
-    </div>
-    <div class="notice ${isLive?'success':'warning'}" style="margin-top:12px">${isLive?'● Tracking session active in this prototype. The sample marker and last-update details refresh automatically.':'Tracking stopped. The last sample position remains visible; no new points are being simulated.'}</div>
-    <p style="font-size:10px;color:#8191a8;margin:10px 0 0">Illustrative map only — roads and addresses are not geospatially accurate. A production version will use real GPS coordinates, a map provider, secure APIs and a real-time channel such as SignalR.</p>
-  </div>`;
-  setTitle('Manager · Live Tracking');
-}
-function changeLiveEmployee(name){liveTrackingEmployee=name;liveTick=0;renderLiveTracking();}
-function restartLiveTimer(){if(liveTrackingActive){clearInterval(liveTimer);const el=document.getElementById('liveInterval');const ms=el?Number(el.value):2000;liveTimer=setInterval(advanceLiveDemo,ms);}}
-function advanceLiveDemo(){if(!liveTrackingActive)return;liveTick++;renderLiveTracking();}
-
 function renderManager(){
  const c=document.getElementById('demoContent');
  if(currentPage==='Dashboard') c.innerHTML=`<div class="dash-grid"><div class="stat-card"><div class="label">MY EMPLOYEES</div><div class="value">8</div><div class="hint">3 checked in</div></div><div class="stat-card"><div class="label">VALIDATIONS</div><div class="value">12</div><div class="hint">Today</div></div><div class="stat-card"><div class="label">SUCCESS RATE</div><div class="value">96%</div><div class="hint">Last 30 days</div></div><div class="stat-card"><div class="label">PENDING</div><div class="value">1</div><div class="hint">Awaiting response</div></div></div><div class="demo-card"><h4>Assigned employees</h4>${managerEmployee('Ali Raza','Checked In','15 m')}${managerEmployee('Hassan Javed','Checked In','—')}${managerEmployee('Usman Ali','Checked Out','—')}</div>`;
  else if(currentPage==='Employees') c.innerHTML=`<div class="demo-card"><h4>My Employees</h4>${managerEmployee('Ali Raza','Checked In','15 m',true)}${managerEmployee('Hassan Javed','Checked In','—',true)}${managerEmployee('Usman Ali','Checked Out','—',true)}${managerEmployee('Bilal Shah','Checked In','—',true)}</div>`;
- else if(currentPage==='Location Requests') c.innerHTML=`<div class="demo-card"><h4>Current Location Validation</h4><div class="notice warning">Core MVP: this action retrieves a one-time current location only. Continuous tracking is a separate optional add-on.</div><div class="field"><label>Select employee</label><select id="managerEmployee"><option>Ali Raza — Checked In</option><option>Hassan Javed — Checked In</option><option>Usman Ali — Checked Out</option></select></div><button class="demo-btn" style="margin-top:12px" onclick="validateLocation()">Get Current Location</button></div><div id="locationResult"></div>`;
- else if(currentPage==='Live Tracking') { renderLiveTracking(); return; }
- else if(currentPage==='Location History') c.innerHTML=`<div class="notice warning">Optional add-on demo · illustrative records only. Historical recording requires separate approval and a defined retention period.</div><div class="demo-card"><h4>Historical Location & Route Analytics</h4><div class="form-grid"><div class="field"><label>Employee</label><select id="historyEmployee"><option>Ali Raza</option><option>Hassan Javed</option><option>Usman Ali</option></select></div><div class="field"><label>Date range</label><select id="historyRange"><option value="today">Today</option><option value="7days">Last 7 days</option><option value="30days">Last 30 days</option></select></div></div><button class="demo-btn" style="margin-top:12px" onclick="filterHistory()">Apply Filters</button><div id="historyResults" style="margin-top:14px"><div class="map-box"><div class="map-grid"></div><div class="map-road"></div><div class="map-road r2"></div><div class="map-pin" style="left:31%;top:60%"></div><div class="map-pin" style="left:58%;top:42%;background:#77a8ff"></div><div class="map-pin" style="left:76%;top:64%;background:#e6c67c"></div><div class="map-label"><strong>Sample route · 3 points</strong><br>Office → Client area → Office</div></div><table class="table-like" style="margin-top:12px"><tr><th>Time</th><th>Recorded point</th><th>Accuracy</th></tr><tr><td>09:10 AM</td><td>Office, Lahore</td><td>12 m</td></tr><tr><td>10:25 AM</td><td>Client area</td><td>18 m</td></tr><tr><td>12:05 PM</td><td>Office, Lahore</td><td>15 m</td></tr></table><div class="notice" style="margin-top:10px">Showing fictional sample data for demonstration only.</div></div></div>`;
- else if(currentPage==='Alerts') c.innerHTML=`<div class="notice warning">Optional add-on demo · choose which sample events should trigger alerts. Saving updates this local prototype only.</div><div class="demo-card"><h4>Configurable Notifications & Alerts</h4><div class="employee-row"><div class="emp-info"><strong>Employee checked out</strong><span>Notify when a tracked employee leaves eligible work status</span></div><input type="checkbox" id="alertCheckedOut" ${alertPreferences.checkedOut?'checked':''} style="width:18px;height:18px;accent-color:#4fd493"></div><div class="employee-row"><div class="emp-info"><strong>Low GPS accuracy</strong><span>Notify when location accuracy is worse than threshold</span></div><input type="checkbox" id="alertLowAccuracy" ${alertPreferences.lowAccuracy?'checked':''} style="width:18px;height:18px;accent-color:#4fd493"></div><div class="employee-row"><div class="emp-info"><strong>Geofence event</strong><span>Notify on agreed entry/exit zones (if configured)</span></div><input type="checkbox" id="alertGeofence" ${alertPreferences.geofence?'checked':''} style="width:18px;height:18px;accent-color:#4fd493"></div><div class="employee-row"><div class="emp-info"><strong>Missed location update</strong><span>Notify if an expected update is not received</span></div><input type="checkbox" id="alertMissedUpdate" ${alertPreferences.missedUpdate?'checked':''} style="width:18px;height:18px;accent-color:#4fd493"></div><div class="form-grid" style="margin-top:14px"><div class="field"><label>Delivery channel</label><select id="alertChannel"><option>In-app notification</option><option>Email</option><option>Push notification</option></select></div><div class="field"><label>Alert history</label><select id="alertHistoryRange"><option>Last 24 hours</option><option>Last 7 days</option><option>Last 30 days</option></select></div></div><button class="demo-btn" style="margin-top:14px" onclick="saveAlertSettings()">Save Alert Settings</button><button class="demo-btn secondary" style="margin:14px 0 0 7px" onclick="action('Notification History','09:42 · Low GPS accuracy · Ali Raza\n09:15 · Employee checked out · Usman Ali')">View Notification History</button><div id="alertSaveResult" style="margin-top:10px"></div></div>`;
+ else if(currentPage==='Location Requests') c.innerHTML=`<div class="demo-card"><h4>Current Location Validation</h4><div class="notice warning">Validation retrieves current device location only. No continuous tracking.</div><div class="field"><label>Select employee</label><select id="managerEmployee"><option>Ali Raza — Checked In</option><option>Hassan Javed — Checked In</option><option>Usman Ali — Checked Out</option></select></div><button class="demo-btn" style="margin-top:12px" onclick="validateLocation()">Get Current Location</button></div><div id="locationResult"></div>`;
  else c.innerHTML=`<div class="demo-card"><div class="profile"><div class="big-avatar">AK</div><div><strong>Ahmed Khan</strong><div style="font-size:10px;color:#8191a8;margin-top:3px">Line Manager · 8 assigned employees</div></div></div></div><div class="demo-card"><h4>Account</h4><div class="notice">Email: ahmed.khan@example.com<br>Last login: Today, 09:02 AM</div><button class="demo-btn secondary" onclick="action('Profile','Profile editing is available in the production application.')">Edit Profile</button></div>`;
  setTitle('Manager · '+currentPage);
 }
 function renderEmployee(){
  const c=document.getElementById('demoContent');
- if(currentPage==='Home') c.innerHTML=`<div class="mobile-preview"><div class="mobile-status"><span>9:41</span><span>▮▮▮  Wi-Fi  87%</span></div><div class="mobile-head"><strong>Good morning, Ali</strong><span>Employee · Current location status</span></div><div class="mobile-body"><div class="mobile-card"><h5>Work Status</h5><div style="display:flex;justify-content:space-between;align-items:center"><strong style="font-size:12px">Checked In</strong><span class="status">ACTIVE</span></div><button class="mobile-action green" style="margin-top:10px" onclick="action('Check-in','You are already checked in for this demo.')">Checked In</button></div><div class="mobile-card"><h5>Location Permission</h5><p style="font-size:9px;color:#6b7887">Location is shared only for authorized work-related location features. Background tracking requires separate platform permissions and clear notice.</p><button class="mobile-action" onclick="action('Permission','Location permission is enabled in this demo.')">Permission Details</button></div></div><div class="mobile-nav"><button class="active">⌂<br>Home</button><button>⌖<br>Location</button><button>◷<br>Requests</button><button>◯<br>Profile</button></div></div>`;
- else if(currentPage==='Location') c.innerHTML=`<div class="mobile-preview"><div class="mobile-status"><span>9:41</span><span>▮▮▮ Wi-Fi 87%</span></div><div class="mobile-head"><strong>My Location</strong><span>Shared during an authorized live-tracking session or one-time validation</span></div><div class="mobile-body"><div class="mobile-card"><h5>Current device location</h5><div class="mini-map"><div class="mini-pin"></div></div><p style="font-size:9px;color:#69788a;margin-bottom:5px">GPS accuracy: <strong>15 m</strong></p><p style="font-size:9px;color:#69788a">Updated: Just now</p></div><div class="mobile-card"><div class="notice success" style="margin:0">Live tracking is an optional feature · Tracking status is visible to the employee</div></div></div><div class="mobile-nav"><button>⌂<br>Home</button><button class="active">⌖<br>Location</button><button>◷<br>Requests</button><button>◯<br>Profile</button></div></div>`;
+ if(currentPage==='Home') c.innerHTML=`<div class="mobile-preview"><div class="mobile-status"><span>9:41</span><span>▮▮▮  Wi-Fi  87%</span></div><div class="mobile-head"><strong>Good morning, Ali</strong><span>Employee · Current location status</span></div><div class="mobile-body"><div class="mobile-card"><h5>Work Status</h5><div style="display:flex;justify-content:space-between;align-items:center"><strong style="font-size:12px">Checked In</strong><span class="status">ACTIVE</span></div><button class="mobile-action green" style="margin-top:10px" onclick="action('Check-in','You are already checked in for this demo.')">Checked In</button></div><div class="mobile-card"><h5>Location Permission</h5><p style="font-size:9px;color:#6b7887">Your device location permission is enabled for on-demand validation.</p><button class="mobile-action" onclick="action('Permission','Location permission is enabled in this demo.')">Permission Details</button></div></div><div class="mobile-nav"><button class="active">⌂<br>Home</button><button>⌖<br>Location</button><button>◷<br>Requests</button><button>◯<br>Profile</button></div></div>`;
+ else if(currentPage==='Location') c.innerHTML=`<div class="mobile-preview"><div class="mobile-status"><span>9:41</span><span>▮▮▮ Wi-Fi 87%</span></div><div class="mobile-head"><strong>My Location</strong><span>Only shared when a validation is requested</span></div><div class="mobile-body"><div class="mobile-card"><h5>Current device location</h5><div class="mini-map"><div class="mini-pin"></div></div><p style="font-size:9px;color:#69788a;margin-bottom:5px">GPS accuracy: <strong>15 m</strong></p><p style="font-size:9px;color:#69788a">Updated: Just now</p></div><div class="mobile-card"><div class="notice success" style="margin:0">No continuous tracking · No location history</div></div></div><div class="mobile-nav"><button>⌂<br>Home</button><button class="active">⌖<br>Location</button><button>◷<br>Requests</button><button>◯<br>Profile</button></div></div>`;
  else if(currentPage==='Requests') c.innerHTML=`<div class="mobile-preview"><div class="mobile-status"><span>9:41</span><span>▮▮▮ Wi-Fi 87%</span></div><div class="mobile-head"><strong>Location Requests</strong><span>Manager validation requests</span></div><div class="mobile-body"><div class="mobile-card"><div style="display:flex;justify-content:space-between"><strong style="font-size:11px">Ahmed Khan</strong><span class="status">COMPLETED</span></div><p style="font-size:9px;color:#69788a">Current location validated · 2 min ago</p></div><div class="mobile-card"><div style="display:flex;justify-content:space-between"><strong style="font-size:11px">Ahmed Khan</strong><span class="status">COMPLETED</span></div><p style="font-size:9px;color:#69788a">Current location validated · Yesterday 4:21 PM</p></div></div><div class="mobile-nav"><button>⌂<br>Home</button><button>⌖<br>Location</button><button class="active">◷<br>Requests</button><button>◯<br>Profile</button></div></div>`;
  else c.innerHTML=`<div class="mobile-preview"><div class="mobile-status"><span>9:41</span><span>▮▮▮ Wi-Fi 87%</span></div><div class="mobile-head"><strong>My Profile</strong><span>Employee account</span></div><div class="mobile-body"><div class="mobile-card"><div class="profile"><div class="big-avatar" style="width:40px;height:40px;font-size:11px">AR</div><div><strong>Ali Raza</strong><div style="font-size:9px;color:#69788a">Employee ID: EMP-1007</div></div></div></div><div class="mobile-card"><p style="font-size:9px;color:#69788a;margin:0 0 7px">Email</p><strong style="font-size:11px">ali.raza@example.com</strong><hr style="border:0;border-top:1px solid #e6ebef;margin:10px 0"><p style="font-size:9px;color:#69788a;margin:0 0 7px">Assigned Manager</p><strong style="font-size:11px">Ahmed Khan</strong></div></div><div class="mobile-nav"><button>⌂<br>Home</button><button>⌖<br>Location</button><button>◷<br>Requests</button><button class="active">◯<br>Profile</button></div></div>`;
  setTitle('Employee · '+currentPage);
@@ -626,30 +548,6 @@ function openEmployeeLocation(name,status,accuracy){
 }
 function requestEmployee(name){action('Location Request Sent',`A current-location validation request was created for ${name}. Dummy response: GPS accuracy 15 m.`)}
 function validateLocation(){let n=document.getElementById('managerEmployee').value.split(' — ')[0];document.getElementById('locationResult').innerHTML=`<div class="demo-card"><h4>Location Result · ${n}</h4><div class="map-box"><div class="map-grid"></div><div class="map-road"></div><div class="map-road r2"></div><div class="map-pin"></div><div class="map-label"><strong>Current Location</strong><br>Doctors Hospital, Lahore<br>Accuracy 15 m · Just now</div></div><div class="notice success" style="margin-top:12px">✓ Authorization verified · ✓ Assignment verified · ✓ Current location received</div></div>`}
-
-function toggleLiveTracking(start){
-  liveTrackingActive=!!start;
-  clearInterval(liveTimer);
-  if(liveTrackingActive){
-    const el=document.getElementById('liveInterval');
-    const ms=el?Number(el.value):2000;
-    liveTimer=setInterval(advanceLiveDemo,ms);
-  }
-  renderLiveTracking();
-  action(start?'Simulated Tracking Started':'Tracking Stopped',start?'The sample marker will move automatically on this demo map. This is fictional simulation only; no real device GPS is accessed.':'Simulation stopped. The last sample position remains visible; no new points will be shown.');
-}
-function filterHistory(){
-  const employee=document.getElementById('historyEmployee').value;
-  const range=document.getElementById('historyRange').value;
-  const labels={today:'Today','7days':'Last 7 days','30days':'Last 30 days'};
-  document.getElementById('historyResults').insertAdjacentHTML('afterbegin',`<div class="notice success">Filters applied: ${employee} · ${labels[range]}. Sample route and timestamps shown below.</div>`);
-}
-function saveAlertSettings(){
-  alertPreferences={checkedOut:document.getElementById('alertCheckedOut').checked,lowAccuracy:document.getElementById('alertLowAccuracy').checked,geofence:document.getElementById('alertGeofence').checked,missedUpdate:document.getElementById('alertMissedUpdate').checked};
-  const enabled=Object.values(alertPreferences).filter(Boolean).length;
-  document.getElementById('alertSaveResult').innerHTML=`<div class="notice success">✓ Demo preferences saved locally · ${enabled} alert rule(s) enabled · Channel: ${document.getElementById('alertChannel').value}</div>`;
-}
-
 function action(title,text){document.getElementById('modalTitle').textContent=title;document.getElementById('modalText').textContent=text;document.getElementById('actionModal').classList.add('open')}
 function closeActionModal(){document.getElementById('actionModal').classList.remove('open')}
 </script>
